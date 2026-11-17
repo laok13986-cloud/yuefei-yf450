@@ -48,7 +48,7 @@ const copy={
 'bar 设定供气压力':['bar set air supply pressure','bar de presión de aire ajustada','bar de pressão de ar ajustada'],
 '从数字结构，':['From digital assembly','Del conjunto digital','Do conjunto digital'],
 '回到真实现场。':['to the factory floor.','a la fábrica real.','ao chão de fábrica.'],
-'YF-450 实机演示 · 00:53':['YF-450 Factory film · 00:53','YF-450 Video de la máquina · 00:53','YF-450 Vídeo da máquina · 00:53'],
+'YF-450 实机演示 · 00:25':['YF-450 Factory film · 00:25','YF-450 Video de la máquina · 00:25','YF-450 Vídeo da máquina · 00:25'],
 '现场实机影像，呈现真实运行画面。':['Real footage of the machine in operation.','Imágenes reales de la máquina en funcionamiento.','Imagens reais da máquina em operação.'],
 '三种幅宽。':['Three width options.','Tres opciones de ancho.','Três opções de largura.'],
 '同一份精密。':['One precision standard.','Una misma precisión.','A mesma precisão.'],
