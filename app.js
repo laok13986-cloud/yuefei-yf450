@@ -1,15 +1,19 @@
 import {createPaperMotion} from './paper-motion.js';
-import {t,initLanguage} from './i18n.js';
+import {t,initLanguage} from './i18n.js?v=20261119-central';
 import * as T from 'three';
 import {OrbitControls} from './assets/OrbitControls.js';
 import {RoomEnvironment} from './assets/RoomEnvironment.js';
-import {createMachine} from './machine-model.js';
+import {createMachine} from './machine-model.js?v=20261119-central';
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const modules=[['机架与承载结构','四立柱机架、上部护罩、加固支撑与下部承载平台，组成整机的稳定骨架。','钣金机架','承载与支撑'],['储纸架总成','储纸架与成组导辊组织纸带路径，各辊体、轴端与支承结构在整体中清晰呈现。','成组导辊','纸带导向'],['左侧原纸卷','层叠纸卷、纸芯与夹持轴构成原纸放料区域。纸卷重量与材料特性影响实际接纸工况。','300–1500 mm','适用卷径'],['右侧原纸卷','另一侧原纸放料位置与接纸总成形成完整纸带处理路径。纸幅依据所选整机机型确定。','50–440 g/m²','适用原纸定量'],['原纸夹紧机构','侧板、轴端夹持及支撑底座配合，完成纸卷定位。可旋转查看侧板孔位和轴承连接。','原纸定位','夹紧与支撑'],['原纸升降机构','升降油缸与支撑结构协同，配合纸卷装载和位置调整。活塞杆与液压管路作外观还原。','液压升降','纸卷装载'],['接纸与压纸总成','压纸板、胶带压辊与二次碾压辊共同构成接纸区域。拆开总成，查看其与导纸结构的关系。','450 m/min*','最高接纸速度'],['加速与张力驱动','两套驱动分别服务加速与张力控制。电机、法兰与线缆与机器整体布局相互衔接。','双伺服','协同控制'],['操作与电控柜','集中式操作面板集成人机界面和操作按钮。通过正面视角查看屏幕、按钮与柜体细节。','集中操作','人机界面'],['气动执行总成','阀组、过滤调压与气路连接共同组成执行系统，协调接纸过程中的相关动作。','6 bar','设定供气压力'],['地轨送纸小车','机底地轨与低位送纸小车服务纸卷装载。轨道、车体与滚轮体现整体装载关系。','地轨装载','原纸输送'],['顶部轴承与导引系统','打开顶部护罩可查看承托梁、轴承座、导辊与轴端。','轴系传动','储纸架驱动']];
 let camera,renderer,controls,scene,groups=[],machine,explode=0,target=0,auto=!matchMedia('(prefers-reduced-motion: reduce)').matches,wire=false,selected=0;let selectedOutline,paperMotion,roof;
 const models=new Map();
 let variant="video", roofOpen=false;let runRequested=false,runActive=false;
-function select(i){selected=i;$('#part-name').textContent=t(modules[i][0]);$('#part-description').textContent=t(modules[i][1]);$('#part-number').textContent=`${String(i+1).padStart(2,'0')} / 12`;$('#part-facts').replaceChildren(...[['系统特点',modules[i][2]],['功能',modules[i][3]]].map(([key,value])=>{const d=document.createElement('div'),s=document.createElement('span'),b=document.createElement('b');s.textContent=t(key);b.textContent=t(value);d.append(s,b);return d}));$$('.modules button').forEach((b,n)=>b.classList.toggle('selected',n===i));if(selectedOutline){scene.remove(selectedOutline);selectedOutline.geometry.dispose();selectedOutline=null}if(machine&&target>.1){const bounds=new T.Box3().setFromObject(groups[i]);selectedOutline=new T.Box3Helper(bounds,0xb9f576);selectedOutline.material.transparent=true;selectedOutline.material.opacity=.3;scene.add(selectedOutline)}}
+const railDescriptions={
+  6:"中央滚轮与控制器装在同一机架上，滚轮两端分别由前后支撑架承托。",
+  8:"控制器位于机身正前方中央，与滚轮总成共用机架。",
+};
+function select(i){selected=i;$('#part-name').textContent=t(modules[i][0]);$('#part-description').textContent=t((variant==='rail'&&railDescriptions[i])||modules[i][1]);$('#part-number').textContent=`${String(i+1).padStart(2,'0')} / 12`;$('#part-facts').replaceChildren(...[['系统特点',modules[i][2]],['功能',modules[i][3]]].map(([key,value])=>{const d=document.createElement('div'),s=document.createElement('span'),b=document.createElement('b');s.textContent=t(key);b.textContent=t(value);d.append(s,b);return d}));$$('.modules button').forEach((b,n)=>b.classList.toggle('selected',n===i));if(selectedOutline){scene.remove(selectedOutline);selectedOutline.geometry.dispose();selectedOutline=null}if(machine&&target>.1){const bounds=new T.Box3().setFromObject(groups[i]);selectedOutline=new T.Box3Helper(bounds,0xb9f576);selectedOutline.material.transparent=true;selectedOutline.material.opacity=.3;scene.add(selectedOutline)}}
 modules.forEach((m,i)=>{const b=document.createElement('button'),n=document.createElement('span');n.textContent=String(i+1).padStart(2,'0');b.append(n,t(m[0]));b.onclick=()=>select(i);$('#modules').append(b)});
 function setExplode(v){if(Number(v)>0)stopMotion();target=Number(v)/100;$('#explode').value=v;$('#amount').textContent=v+'%';$('#assemble').classList.toggle('active',!target);$('#disassemble').classList.toggle('active',!!target);updateMotionUI();if(selectedOutline){scene.remove(selectedOutline);selectedOutline.geometry.dispose();selectedOutline=null}if(camera){const direction=camera.position.clone().sub(controls.target).normalize();const distance=Math.max(target>0?12.8:10.7,(target>0?5.1:3.65)/(Math.tan(camera.fov*Math.PI/360)*camera.aspect));controls.target.set(0,target>0?2.0:1.65,0);camera.position.copy(controls.target).addScaledVector(direction,distance)}}
 function loadModel(){

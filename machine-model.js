@@ -47,7 +47,8 @@ if(!rail) for(const x of [-2.28,2.28]){const q=groups[4];for(const z of [-1.04,1
 // 06: hydraulic cylinders, polished piston rods, fittings and curved hoses.
 if(!rail) for(const x of [-2.28,2.28])for(const z of [-.86,.86]){const q=groups[5];cylinder(q,.068,.56,[x+.22,.6,z],steel,'y');cylinder(q,.031,.38,[x+.22,1.03,z],chrome,'y');for(const y of [.34,.87]){cylinder(q,.09,.07,[x+.22,y,z],dark,'y');box(q,.04,.04,.1,[x+.22,y,z+.08],brass,.006)}cylinder(q,.075,.18,[x+.22,1.23,z],paint);bolt(q,[x+.22,1.23,z+.11],.03);tube(q,[[x+.23,.4,z+.1],[x+.46,.45,z+.2],[x+.49,.75,z+.08],[x+.47,.95,z-.14],[x+.25,.9,z-.1]],.018);}
 // 07: splicing head, pressure bar, carriage, actuator brackets and repeated screw heads.
-const head=groups[6];box(head,2.72,.13,1.52,[0,2.74,0],paint,.02);box(head,2.58,.055,.38,[0,2.58,.53],steel,.012);for(const y of [2.51,2.85])roller(head,[0,y,.48],2.65,'x',.073);roller(head,[0,2.58,-.42],2.65,'x',.065);box(head,2.55,.065,.1,[0,2.5,.78],rubber,.014);for(const x of [-1.28,1.28]){plate(head,[[-.13,-.2],[.13,-.2],[.17,.2],[-.17,.2]],.08,[x,2.6,.5],[ [0,0,.06] ]);for(const z of [-.62,.62]){cylinder(head,.04,.27,[x,2.87,z],steel,'y');bolt(head,[x,3.03,z],.033,'y')}}for(let x=-1.1;x<=1.1;x+=.22)bolt(head,[x,2.62,.74],.017);
+const head=groups[6];
+if(!rail){box(head,2.72,.13,1.52,[0,2.74,0],paint,.02);box(head,2.58,.055,.38,[0,2.58,.53],steel,.012);for(const y of [2.51,2.85])roller(head,[0,y,.48],2.65,'x',.073);roller(head,[0,2.58,-.42],2.65,'x',.065);box(head,2.55,.065,.1,[0,2.5,.78],rubber,.014);for(const x of [-1.28,1.28]){plate(head,[[-.13,-.2],[.13,-.2],[.17,.2],[-.17,.2]],.08,[x,2.6,.5],[ [0,0,.06] ]);for(const z of [-.62,.62]){cylinder(head,.04,.27,[x,2.87,z],steel,'y');bolt(head,[x,3.03,z],.033,'y')}}for(let x=-1.1;x<=1.1;x+=.22)bolt(head,[x,2.62,.74],.017);}
 // 08: finned motors, machined flanges, encoder housings, cable glands.
 for(const x of [-1.77,1.77]){const q=groups[7];box(q,.34,.39,.43,[x,2.44,.42],blue,.035);for(let i=0;i<9;i++)box(q,.38,.014,.46,[x,2.29+i*.037,.42],dark,.004);cylinder(q,.21,.16,[x,2.44,.7],steel);cylinder(q,.105,.085,[x,2.44,.82],dark);box(q,.17,.18,.17,[x,2.75,.35],dark,.02);cylinder(q,.11,.22,[x,2.44,.13],dark);for(const dx of [-.135,.135])for(const dy of [-.135,.135])bolt(q,[x+dx,2.44+dy,.79],.023);tube(q,[[x,2.78,.35],[x+.13,2.89,.2],[x+.16,2.88,-.3],[x,2.9,-.65]],.018);}
 // 09: formed control cabinet, panel seams, hinges, touchscreen, buttons and LED display.
@@ -65,7 +66,7 @@ for(const z of [-.76,.76]) {
 }
 // Bearing blocks and shaft journals are visible with the canopy lifted.
 const upperRollers=rail
-  ? [[-2.88,3.34],[-2.72,3.14],[-2.42,3.34],[-2.11,3.34],[0,2.97],[1.93,3.03],[2.31,3.19],[2.91,3.34]]
+  ? [[-2.88,3.34],[-2.72,3.14],[-2.42,3.34],[-2.11,3.34],[1.93,3.03],[2.31,3.19],[2.91,3.34]]
   : [[-2.48,3.34],[-1.85,3.25],[-.94,3.32],[0,3.22],[.94,3.32],[1.85,3.25],[2.48,3.34]];
 for(const [x,y] of upperRollers){
   roller(guide,[x,y,0],1.40,'z',.077);
@@ -114,13 +115,31 @@ if(rail){
     roller(groups[1],[x,3.02,0],1.52,'z',.072);
     box(groups[1],.15,.17,.10,[x,3.02,.8],blue,.018);
   }
-  for(const y of [1.79,2.11,2.43,2.76])roller(groups[6],[0,y,0],1.63,'z',.073);
-  groups[6].traverse(m=>{if(m.isMesh && m.geometry.type==='ExtrudeGeometry')m.position.z-=.09;});
-  // Keep the front of the center mechanism visible in the technical layout.
-  control.position.set(0,0,0);
-  control.children.forEach(m=>{m.position.x+=1.21;m.position.z-=.27;m.position.y-=.30;});
+  // The centered controller and splice rollers share a frame at both shaft ends.
+  head.add(control);
+  const spliceRollerHeights=[1.79,2.11,2.43,2.76,2.97];
+  for(const y of spliceRollerHeights)roller(head,[0,y,0],1.63,'z',.073);
+  for(const z of [-.92,.92]){
+    const outerSide=Math.sign(z);
+    box(head,1.26,.14,.35,[0,.39,z],paint,.024);
+    for(const x of [-.50,.50]){
+      box(head,.16,2.63,.19,[x,1.76,z],paint,.019);
+      beam(head,[x,.51,z],[x,1.23,z-outerSide*.45],.09,.09,blue);
+      bolt(head,[x,.48,z+outerSide*.11],.022,'y');
+    }
+    for(const y of spliceRollerHeights){
+      box(head,1.10,.11,.14,[0,y,z],blue,.015);
+      box(head,.24,.20,.19,[0,y,z-outerSide*.05],blue,.019);
+      cylinder(head,.077,.07,[0,y,z+outerSide*.092],chrome);
+      for(const x of [-.078,.078])bolt(head,[x,y-.055,z+outerSide*.10],.016);
+    }
+  }
+  for(const x of [-.50,.50]){
+    box(head,.18,.12,1.84,[x,.45,0],paint,.018);
+    box(head,.15,.11,1.84,[x,3.05,0],blue,.016);
+  }
 }
-const offsets=[[0,0,0],[0,1.3,-1.6],[-1.6,0,.1],[1.6,0,.1],[-.6,0,1.5],[1.0,.25,-1.4],[0,1.65,.3],[0,1.0,1.6],[0,.2,2.0],[1.8,.65,-.8],[0,0,-1.6],[0,1.9,-1.65]];
+const offsets=[[0,0,0],[0,1.3,-1.6],[-1.6,0,.1],[1.6,0,.1],[-.6,0,1.5],[1.0,.25,-1.4],[0,1.65,.3],[0,1.0,1.6],rail?[0,0,0]:[0,.2,2.0],[1.8,.65,-.8],[0,0,-1.6],[0,1.9,-1.65]];
 groups.forEach((q,i)=>{q.userData.offset=new T.Vector3(...offsets[i]);q.traverse(m=>{if(m.isMesh){m.userData.module=i;m.userData.normalMaterial=m.material}})});
 return {root,groups,roof};
 }

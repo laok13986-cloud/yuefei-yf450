@@ -119,6 +119,16 @@ Object.assign(copy, {
   ],
   "独立式": ["Standalone", "Independiente", "Independente"],
   "轨道式": ["Rail-mounted", "Sobre rieles", "Sobre trilhos"],
+  "中央滚轮与控制器装在同一机架上，滚轮两端分别由前后支撑架承托。": [
+    "The central rollers and controller share a frame with front and rear supports for the roller shafts.",
+    "Los rodillos centrales y el controlador comparten un bastidor con soportes delanteros y traseros para los ejes.",
+    "Os rolos centrais e o controlador compartilham uma estrutura com apoios dianteiros e traseiros para os eixos."
+  ],
+  "控制器位于机身正前方中央，与滚轮总成共用机架。": [
+    "The controller sits at the front center on the same frame as the roller assembly.",
+    "El controlador está centrado en la parte delantera y comparte bastidor con el conjunto de rodillos.",
+    "O controlador fica na parte frontal central e compartilha a estrutura com o conjunto de rolos."
+  ],
   "查看顶部导引": [
     "Show upper guides",
     "Ver guías superiores",
