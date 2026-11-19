@@ -20,8 +20,8 @@ function decal(g,text,pos,w,h,{bg='#d9ded9',color='#203e62',size=70}={}){const t
 const g=groups[0];
 const roof=new T.Group();
 g.add(roof);
-const roofWidth=rail?6.25:5.8;
-const roofDepth=rail?2.15:1.8;
+const roofWidth=rail?6.25:5.92;
+const roofDepth=rail?2.15:1.94;
 const roofEdge=roofDepth/2;
 box(roof,roofWidth,.065,roofDepth,[0,3.54,0],paint,.018);
 for(const z of [-roofEdge,roofEdge]){
@@ -139,7 +139,16 @@ if(rail){
     box(head,.15,.11,1.84,[x,3.05,0],blue,.016);
   }
 }
-const offsets=[[0,0,0],[0,1.3,-1.6],[-1.6,0,.1],[1.6,0,.1],[-.6,0,1.5],[1.0,.25,-1.4],[0,1.65,.3],[0,1.0,1.6],rail?[0,0,0]:[0,.2,2.0],[1.8,.65,-.8],[0,0,-1.6],[0,1.9,-1.65]];
+const offsets=[[0,0,0],[0,1.3,-1.6],[-1.6,0,.1],[1.6,0,.1],[-.6,0,1.5],[1.0,.25,-1.4],[0,1.65,.3],[0,1.0,1.6],rail?[0,0,0]:[0,.2,2.0],[1.8,.65,-.8],[0,0,-1.6],[0,1.9,1.8]];
 groups.forEach((q,i)=>{q.userData.offset=new T.Vector3(...offsets[i]);q.traverse(m=>{if(m.isMesh){m.userData.module=i;m.userData.normalMaterial=m.material}})});
-return {root,groups,roof};
+function poseAssembly(progress){
+  // Lift the cover free of the bearings, then move it behind the machine
+  // before advancing the guide rollers. Reassembly reverses the same path.
+  const lift=T.MathUtils.smoothstep(progress,0,.12);
+  const retreat=T.MathUtils.smoothstep(progress,.12,.30);
+  const separation=T.MathUtils.smoothstep(progress,.30,1);
+  roof.position.set(0,.85*lift+1.2*retreat,-2.4*retreat);
+  groups.forEach(group=>group.position.copy(group.userData.offset).multiplyScalar(separation));
+}
+return {root,groups,poseAssembly};
 }
