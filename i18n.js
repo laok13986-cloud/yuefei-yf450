@@ -33,7 +33,7 @@ const copy={
 '透视结构':['Wireframe','Estructura de líneas','Estrutura em linhas'],
 '选择总成':['Select assembly','Seleccionar conjunto','Selecionar conjunto'],
 'ⓘ 模型说明':['ⓘ About this model','ⓘ Acerca del modelo','ⓘ Sobre o modelo'],
-'参照实机影像制作的整机展示模型。拆解用于说明总成关系，不作为工程装配或维修依据。':['A presentation model based on factory footage. The exploded view explains assembly relationships; it is not an engineering or maintenance guide.','Modelo basado en imágenes de la máquina real. La separación ilustra la relación entre conjuntos; no es una guía de montaje o mantenimiento.','Modelo baseado em imagens da máquina real. A separação ilustra a relação entre conjuntos; não é um guia de montagem ou manutenção.'],
+'依据实机视频和技术图制作的整机展示模型。拆解用于说明总成关系，不作为工程装配或维修依据。':['Presentation models based on factory footage and technical drawings. The exploded view explains assembly relationships; it is not an engineering or maintenance guide.','Modelos basados en imágenes de la máquina y planos técnicos. La separación ilustra la relación entre conjuntos; no es una guía de montaje o mantenimiento.','Modelos baseados em imagens da máquina e desenhos técnicos. A separação ilustra a relação entre conjuntos; não é um guia de montagem ou manutenção.'],
 '协同，藏在每一处细节。':['Engineered to work as one.','Diseñada para trabajar en conjunto.','Projetada para trabalhar em conjunto.'],
 '从纸卷装载到接纸控制，':['From roll loading to splice control,','Desde la carga hasta el control del empalme,','Do carregamento ao controle da emenda,'],
 '让各个系统在同一节奏下工作。':['every system works in step.','cada sistema trabaja al mismo ritmo.','cada sistema trabalha no mesmo ritmo.'],
@@ -111,12 +111,59 @@ const copy={
 'YF450机器实机演示视频':['YF450 factory demonstration video','Video de demostración de la YF450','Vídeo de demonstração da YF450']
 };
 Object.assign(copy,{"运行演示 ▶": ["Run paper flow ▶", "Ver funcionamiento ▶", "Ver funcionamento ▶"], "停止运行 ■": ["Stop operation ■", "Detener funcionamiento ■", "Parar funcionamento ■"], "静态整机": ["Static assembly", "Conjunto estático", "Conjunto estático"], "运行中 · 纸带沿箭头移动": ["Running · Paper follows the arrows", "En marcha · El papel sigue las flechas", "Em operação · O papel segue as setas"], "正在合拢整机…": ["Reassembling the machine…", "Montando la máquina…", "Montando a máquina…"], "拆解视图 · 运行已停止": ["Exploded view · Operation stopped", "Vista separada · Funcionamiento detenido", "Vista explodida · Operação parada"], "实线纸带：运行路径 · 虚线：备用卷引纸示意": ["Solid web: running path · Dashed line: standby reel threading", "Banda continua: recorrido activo · Línea discontinua: enhebrado de reserva", "Banda contínua: percurso ativo · Linha tracejada: passagem da bobina reserva"], "走纸路线与动画速度为原理演示，不是实际工况仿真。": ["The paper route and animation speed illustrate the principle, not actual operating conditions.", "El recorrido y la velocidad de la animación ilustran el principio; no simulan condiciones reales.", "O percurso e a velocidade da animação ilustram o princípio; não simulam condições reais."], "ASSEMBLED": ["ASSEMBLED", "MONTADA", "MONTADA"], "EXPLODED": ["EXPLODED", "SEPARADA", "SEPARADA"], "ASSEMBLY EXPLORER": ["ASSEMBLY EXPLORER", "EXPLORAR CONJUNTOS", "EXPLORAR CONJUNTOS"], "12 MODULES": ["12 MODULES", "12 CONJUNTOS", "12 CONJUNTOS"], "YF450 / INTERACTIVE ASSEMBLY": ["YF450 / INTERACTIVE ASSEMBLY", "YF450 / CONJUNTO INTERACTIVO", "YF450 / CONJUNTO INTERATIVO"], "01 / ENGINEERED TO EXPLORE": ["01 / ENGINEERED TO EXPLORE", "01 / DISEÑADA PARA EXPLORAR", "01 / PROJETADA PARA EXPLORAR"], "02 / ENGINEERED AS ONE": ["02 / ENGINEERED AS ONE", "02 / DISEÑADA COMO UN CONJUNTO", "02 / PROJETADA COMO UM CONJUNTO"], "03 / SEE IT IN MOTION": ["03 / SEE IT IN MOTION", "03 / VÉALA EN MOVIMIENTO", "03 / VEJA EM MOVIMENTO"], "04 / FIND YOUR FIT": ["04 / FIND YOUR FIT", "04 / ELIJA SU MODELO", "04 / ESCOLHA SEU MODELO"], "01 / SERVO SYSTEM": ["01 / SERVO SYSTEM", "01 / SISTEMA SERVO", "01 / SISTEMA SERVO"], "02 / PAPER HANDLING": ["02 / PAPER HANDLING", "02 / RECORRIDO DEL PAPEL", "02 / PERCURSO DO PAPEL"], "03 / CONTROL & ACTUATION": ["03 / CONTROL & ACTUATION", "03 / CONTROL Y ACCIONAMIENTO", "03 / CONTROLE E ACIONAMENTO"], "PAPER SPLICING, REIMAGINED": ["PAPER SPLICING, REIMAGINED", "EL EMPALME DE PAPEL, REIMAGINADO", "A EMENDA DE PAPEL, REIMAGINADA"], "SERVO PAPER SPLICER": ["SERVO PAPER SPLICER", "EMPALMADORA DE PAPEL SERVO", "EMENDADEIRA DE PAPEL SERVO"], "PRECISION IN MOTION": ["PRECISION IN MOTION", "PRECISIÓN EN MOVIMIENTO", "PRECISÃO EM MOVIMENTO"], "ENGINEERED IN ZHUHAI · CHINA": ["ENGINEERED IN ZHUHAI · CHINA", "DISEÑADA EN ZHUHAI · CHINA", "PROJETADA EM ZHUHAI · CHINA"], "FIELD FOOTAGE / YF-450": ["FIELD FOOTAGE / YF-450", "VIDEO REAL / YF-450", "VÍDEO REAL / YF-450"], "LET’S CONNECT YOUR NEXT ROLL": ["LET’S CONNECT YOUR NEXT ROLL", "CONECTEMOS SU PRÓXIMA BOBINA", "CONECTE SUA PRÓXIMA BOBINA"]});
+Object.assign(copy, {
+  "接纸机样式": [
+    "Machine configuration",
+    "Configuración de la máquina",
+    "Configuração da máquina"
+  ],
+  "实机视频款": [
+    "Factory video model",
+    "Modelo del video",
+    "Modelo do vídeo"
+  ],
+  "轨道式接纸机（技术图）": [
+    "Rail-feed splicer (technical drawing)",
+    "Empalmadora sobre rieles (plano técnico)",
+    "Emendadeira com trilhos (desenho técnico)"
+  ],
+  "实机视频款 · 可打开顶部查看轴承座和导辊": [
+    "Factory video model · Lift the cover to see the bearings and guide rollers",
+    "Modelo del video · Levante la cubierta para ver los rodamientos y rodillos guía",
+    "Modelo do vídeo · Abra a cobertura para ver os mancais e rolos guia"
+  ],
+  "技术图轨道款 · 地轨送纸小车、斜置放料臂和中央接纸架": [
+    "Technical drawing · Floor-rail trolleys, angled roll stands and central splice head",
+    "Plano técnico · Carros sobre rieles, brazos inclinados y cabezal central de empalme",
+    "Desenho técnico · Carros sobre trilhos, braços inclinados e cabeçote central de emenda"
+  ],
+  "查看顶部导引": [
+    "Show upper guides",
+    "Ver guías superiores",
+    "Ver guias superiores"
+  ],
+  "合上顶部护罩": [
+    "Close upper cover",
+    "Cerrar cubierta superior",
+    "Fechar cobertura superior"
+  ],
+  "顶部轴承与导引系统": [
+    "Upper bearings & guides",
+    "Rodamientos y guías superiores",
+    "Mancais e guias superiores"
+  ],
+  "打开顶部护罩可查看承托梁、轴承座、导辊与轴端。": [
+    "Lift the upper cover to see the support beams, bearing housings, guide rollers and shaft ends.",
+    "Levante la cubierta superior para ver los soportes, alojamientos de rodamientos, rodillos guía y extremos de los ejes.",
+    "Abra a cobertura superior para ver as vigas, mancais, rolos guia e pontas dos eixos."
+  ]
+});
 export const supportedLanguages=['zh','es','pt','en'];
 let language='zh';
 const originals=new WeakMap(),attributes=new WeakMap();
 export function t(source){if(language==='zh')return source;return copy[source]?.[{en:0,es:1,pt:2}[language]]??source}
 export function currentLanguage(){return language}
 function readPreference(){let stored;try{stored=localStorage.getItem('yf450-language')}catch{}const q=new URL(location.href).searchParams.get('lang');if(supportedLanguages.includes(q))return q;if(supportedLanguages.includes(stored))return stored;const browser=(navigator.language||'zh').slice(0,2);return supportedLanguages.includes(browser)?browser:'en'}
-function translateDocument(){const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let node;while(node=walker.nextNode()){if(node.parentElement.closest('script,style,select,#modules,#part-name,#part-description,#part-facts,#auto'))continue;const original=originals.get(node)??node.nodeValue;originals.set(node,original);const key=original.trim();node.nodeValue=key?original.replace(key,t(key)):original}document.querySelectorAll('[aria-label],[alt]').forEach(el=>{let attrs=attributes.get(el);if(!attrs){attrs={};for(const key of ['aria-label','alt'])if(el.hasAttribute(key))attrs[key]=el.getAttribute(key);attributes.set(el,attrs)}for(const [key,value]of Object.entries(attrs))el.setAttribute(key,t(value))});document.documentElement.lang={zh:'zh-CN',es:'es',pt:'pt-BR',en:'en'}[language];document.title={zh:'YF450 — 悦非智能 · 伺服接纸机',es:'YF450 — Yuefei · Empalmadora de papel',pt:'YF450 — Yuefei · Emendadeira de papel',en:'YF450 — Yuefei · Servo Paper Splicer'}[language];document.querySelector('meta[name="description"]').content=t('YF450 系列伺服接纸机');document.querySelector('#language').value=language;const email=document.querySelector('.email-link');email.href='mailto:laok13986@gmail.com?subject='+encodeURIComponent({zh:'YF450 产品咨询',es:'Consulta sobre YF450',pt:'Consulta sobre YF450',en:'YF450 product inquiry'}[language]);}
+function translateDocument(){const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let node;while(node=walker.nextNode()){if(node.parentElement.closest('script,style,#language,#style-description,#roof-toggle,#modules,#part-name,#part-description,#part-facts,#auto'))continue;const original=originals.get(node)??node.nodeValue;originals.set(node,original);const key=original.trim();node.nodeValue=key?original.replace(key,t(key)):original}document.querySelectorAll('[aria-label],[alt]').forEach(el=>{let attrs=attributes.get(el);if(!attrs){attrs={};for(const key of ['aria-label','alt'])if(el.hasAttribute(key))attrs[key]=el.getAttribute(key);attributes.set(el,attrs)}for(const [key,value]of Object.entries(attrs))el.setAttribute(key,t(value))});document.documentElement.lang={zh:'zh-CN',es:'es',pt:'pt-BR',en:'en'}[language];document.title={zh:'YF450 — 悦非智能 · 伺服接纸机',es:'YF450 — Yuefei · Empalmadora de papel',pt:'YF450 — Yuefei · Emendadeira de papel',en:'YF450 — Yuefei · Servo Paper Splicer'}[language];document.querySelector('meta[name="description"]').content=t('YF450 系列伺服接纸机');document.querySelector('#language').value=language;const email=document.querySelector('.email-link');email.href='mailto:laok13986@gmail.com?subject='+encodeURIComponent({zh:'YF450 产品咨询',es:'Consulta sobre YF450',pt:'Consulta sobre YF450',en:'YF450 product inquiry'}[language]);}
 export function setLanguage(value){if(!supportedLanguages.includes(value))return;language=value;try{localStorage.setItem('yf450-language',language)}catch{}const u=new URL(location.href);u.searchParams.set('lang',language);history.replaceState(null,'',u.pathname+u.search+u.hash);translateDocument();window.dispatchEvent(new Event('site-languagechange'))}
 export function initLanguage(){document.querySelector('#language').addEventListener('change',e=>setLanguage(e.target.value));setLanguage(readPreference())}
