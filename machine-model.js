@@ -147,7 +147,7 @@ function poseAssembly(progress){
   const lift=T.MathUtils.smoothstep(progress,0,.12);
   const retreat=T.MathUtils.smoothstep(progress,.12,.30);
   const separation=T.MathUtils.smoothstep(progress,.30,1);
-  roof.position.set(0,.85*lift+1.2*retreat,-2.4*retreat);
+  roof.position.set(0,.85*lift+1.85*retreat,-2.4*retreat);
   groups.forEach(group=>group.position.copy(group.userData.offset).multiplyScalar(separation));
 }
 return {root,groups,poseAssembly};
