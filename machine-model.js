@@ -1,4 +1,44 @@
 import * as T from 'three';
+
+export const explodedViewDirection=new T.Vector3(.38,.19,1).normalize();
+
+function arrangeAssemblies(root,rows){
+  const viewToWorld=new T.Matrix4().lookAt(explodedViewDirection,new T.Vector3(),new T.Vector3(0,1,0));
+  const worldToView=viewToWorld.clone().invert();
+  const gap=.68;
+  root.updateMatrixWorld(true);
+  const measuredRows=rows.map(parts=>{
+    const items=parts.map(part=>{
+      const bounds=new T.Box3();
+      part.traverse(mesh=>{
+        if(!mesh.isMesh)return;
+        mesh.geometry.computeBoundingBox();
+        const transform=new T.Matrix4().multiplyMatrices(worldToView,mesh.matrixWorld);
+        bounds.union(mesh.geometry.boundingBox.clone().applyMatrix4(transform));
+      });
+      return {part,center:bounds.getCenter(new T.Vector3()),size:bounds.getSize(new T.Vector3())};
+    });
+    const width=items.reduce((width,item)=>width+item.size.x,0)+gap*(items.length-1);
+    return {items,width,height:Math.max(...items.map(item=>item.size.y))};
+  });
+  const width=Math.max(...measuredRows.map(row=>row.width));
+  const height=measuredRows.reduce((height,row)=>height+row.height,0)+gap*(rows.length-1);
+  const center=new T.Vector3(0,height/2+.6,0);
+  let y=height/2,depth=0;
+  const offsets=new Map();
+  for(const row of measuredRows){
+    let x=-row.width/2;
+    for(const {part,center:origin,size} of row.items){
+      const offset=new T.Vector3(x+size.x/2,y-row.height/2,0);
+      offsets.set(part,offset.sub(origin).applyMatrix4(viewToWorld).add(center));
+      x+=size.x+gap;
+      depth=Math.max(depth,size.z/2);
+    }
+    y-=row.height+gap;
+  }
+  return {center,width,height,depth,offsets};
+}
+
 // Visual reconstruction from the factory film, not a dimensional engineering model.
 export function createMachine(variant = "video"){
 const rail = variant === "rail";
@@ -19,7 +59,8 @@ function decal(g,text,pos,w,h,{bg='#d9ded9',color='#203e62',size=70}={}){const t
 // 01: formed canopy, four uprights, gussets, folded lower pan.
 const g=groups[0];
 const roof=new T.Group();
-g.add(roof);
+roof.userData.module=0;
+root.add(roof);
 const roofWidth=rail?6.25:5.92;
 const roofDepth=rail?2.15:1.94;
 const roofEdge=roofDepth/2;
@@ -141,13 +182,20 @@ if(rail){
 }
 const offsets=[[0,0,0],[0,1.3,-1.6],[-1.6,0,.1],[1.6,0,.1],[-.6,0,1.5],[1.0,.25,-1.4],[0,1.65,.3],[0,1.0,1.6],rail?[0,0,0]:[0,.2,2.0],[1.8,.65,-.8],[0,0,-1.6],[0,1.4,1.8]];
 groups.forEach((q,i)=>{q.userData.offset=new T.Vector3(...offsets[i]);q.traverse(m=>{if(m.isMesh){m.userData.module=i;m.userData.normalMaterial=m.material}})});
+roof.traverse(m=>{if(m.isMesh)m.userData.normalMaterial=m.material});
+const layout=arrangeAssemblies(root,[
+  [groups[7],roof,groups[9]],
+  [groups[2],guide,groups[3],groups[10]],
+  [groups[1],g,head,...(rail?[]:[control])],
+  [groups[4],groups[5]],
+]);
 function poseAssembly(progress){
+  const layoutProgress=T.MathUtils.smoothstep(progress,.36,1);
   groups.forEach(group=>group.position.copy(group.userData.offset).multiplyScalar(progress));
-  // Both parts move throughout the animation. Ease their depth travel together
-  // so the cover clears the bearings before passing above them.
   const depthProgress=progress**3.3;
   roof.position.set(0,2.7*progress,-2.4*depthProgress);
   guide.position.z=guide.userData.offset.z*depthProgress;
+  for(const [part,offset] of layout.offsets)part.position.lerp(offset,layoutProgress);
 }
-return {root,groups,poseAssembly};
+return {root,groups,poseAssembly,layout};
 }
