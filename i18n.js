@@ -129,25 +129,15 @@ Object.assign(copy, {
     "El controlador está centrado en la parte delantera y comparte bastidor con el conjunto de rodillos.",
     "O controlador fica na parte frontal central e compartilha a estrutura com o conjunto de rolos."
   ],
-  "查看顶部导引": [
-    "Show upper guides",
-    "Ver guías superiores",
-    "Ver guias superiores"
-  ],
-  "合上顶部护罩": [
-    "Close upper cover",
-    "Cerrar cubierta superior",
-    "Fechar cobertura superior"
-  ],
   "顶部轴承与导引系统": [
     "Upper bearings & guides",
     "Rodamientos y guías superiores",
     "Mancais e guias superiores"
   ],
-  "打开顶部护罩可查看承托梁、轴承座、导辊与轴端。": [
-    "Lift the upper cover to see the support beams, bearing housings, guide rollers and shaft ends.",
-    "Levante la cubierta superior para ver los soportes, alojamientos de rodamientos, rodillos guía y extremos de los ejes.",
-    "Abra a cobertura superior para ver as vigas, mancais, rolos guia e pontas dos eixos."
+  "拆解整机时，顶部护罩移开，露出承托梁、轴承座、导辊与轴端。": [
+    "Explode the assembly to lift the cover and reveal the support beams, bearing housings, guide rollers and shaft ends.",
+    "Abra la vista despiezada para levantar la cubierta y ver los soportes, los alojamientos de rodamientos, los rodillos guía y los extremos de los ejes.",
+    "Abra a vista explodida para levantar a cobertura e ver as vigas, os mancais, os rolos guia e as pontas dos eixos."
   ]
 });
 export const supportedLanguages=['zh','es','pt','en'];
@@ -156,6 +146,6 @@ const originals=new WeakMap(),attributes=new WeakMap();
 export function t(source){if(language==='zh')return source;return copy[source]?.[{en:0,es:1,pt:2}[language]]??source}
 export function currentLanguage(){return language}
 function readPreference(){let stored;try{stored=localStorage.getItem('yf450-language')}catch{}const q=new URL(location.href).searchParams.get('lang');if(supportedLanguages.includes(q))return q;if(supportedLanguages.includes(stored))return stored;const browser=(navigator.language||'zh').slice(0,2);return supportedLanguages.includes(browser)?browser:'en'}
-function translateDocument(){const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let node;while(node=walker.nextNode()){if(node.parentElement.closest('script,style,#language,#style-description,#roof-toggle,#modules,#part-name,#part-description,#part-facts,#auto'))continue;const original=originals.get(node)??node.nodeValue;originals.set(node,original);const key=original.trim();node.nodeValue=key?original.replace(key,t(key)):original}document.querySelectorAll('[aria-label],[alt]').forEach(el=>{let attrs=attributes.get(el);if(!attrs){attrs={};for(const key of ['aria-label','alt'])if(el.hasAttribute(key))attrs[key]=el.getAttribute(key);attributes.set(el,attrs)}for(const [key,value]of Object.entries(attrs))el.setAttribute(key,t(value))});document.documentElement.lang={zh:'zh-CN',es:'es',pt:'pt-BR',en:'en'}[language];document.title={zh:'YF450 — 悦非智能 · 伺服接纸机',es:'YF450 — Yuefei · Empalmadora de papel',pt:'YF450 — Yuefei · Emendadeira de papel',en:'YF450 — Yuefei · Servo Paper Splicer'}[language];document.querySelector('meta[name="description"]').content=t('YF450 系列伺服接纸机');document.querySelector('#language').value=language;const email=document.querySelector('.email-link');email.href='mailto:laok13986@gmail.com?subject='+encodeURIComponent({zh:'YF450 产品咨询',es:'Consulta sobre YF450',pt:'Consulta sobre YF450',en:'YF450 product inquiry'}[language]);}
+function translateDocument(){const walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT);let node;while(node=walker.nextNode()){if(node.parentElement.closest('script,style,#language,#modules,#part-name,#part-description,#part-facts,#auto'))continue;const original=originals.get(node)??node.nodeValue;originals.set(node,original);const key=original.trim();node.nodeValue=key?original.replace(key,t(key)):original}document.querySelectorAll('[aria-label],[alt]').forEach(el=>{let attrs=attributes.get(el);if(!attrs){attrs={};for(const key of ['aria-label','alt'])if(el.hasAttribute(key))attrs[key]=el.getAttribute(key);attributes.set(el,attrs)}for(const [key,value]of Object.entries(attrs))el.setAttribute(key,t(value))});document.documentElement.lang={zh:'zh-CN',es:'es',pt:'pt-BR',en:'en'}[language];document.title={zh:'YF450 — 悦非智能 · 伺服接纸机',es:'YF450 — Yuefei · Empalmadora de papel',pt:'YF450 — Yuefei · Emendadeira de papel',en:'YF450 — Yuefei · Servo Paper Splicer'}[language];document.querySelector('meta[name="description"]').content=t('YF450 系列伺服接纸机');document.querySelector('#language').value=language;const email=document.querySelector('.email-link');email.href='mailto:laok13986@gmail.com?subject='+encodeURIComponent({zh:'YF450 产品咨询',es:'Consulta sobre YF450',pt:'Consulta sobre YF450',en:'YF450 product inquiry'}[language]);}
 export function setLanguage(value){if(!supportedLanguages.includes(value))return;language=value;try{localStorage.setItem('yf450-language',language)}catch{}const u=new URL(location.href);u.searchParams.set('lang',language);history.replaceState(null,'',u.pathname+u.search+u.hash);translateDocument();window.dispatchEvent(new Event('site-languagechange'))}
 export function initLanguage(){document.querySelector('#language').addEventListener('change',e=>setLanguage(e.target.value));setLanguage(readPreference())}
