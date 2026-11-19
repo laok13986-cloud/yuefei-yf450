@@ -117,26 +117,8 @@ Object.assign(copy, {
     "Configuración de la máquina",
     "Configuração da máquina"
   ],
-  "实机视频款": [
-    "Factory video model",
-    "Modelo del video",
-    "Modelo do vídeo"
-  ],
-  "轨道式接纸机（技术图）": [
-    "Rail-feed splicer (technical drawing)",
-    "Empalmadora sobre rieles (plano técnico)",
-    "Emendadeira com trilhos (desenho técnico)"
-  ],
-  "实机视频款 · 可打开顶部查看轴承座和导辊": [
-    "Factory video model · Lift the cover to see the bearings and guide rollers",
-    "Modelo del video · Levante la cubierta para ver los rodamientos y rodillos guía",
-    "Modelo do vídeo · Abra a cobertura para ver os mancais e rolos guia"
-  ],
-  "技术图轨道款 · 地轨送纸小车、斜置放料臂和中央接纸架": [
-    "Technical drawing · Floor-rail trolleys, angled roll stands and central splice head",
-    "Plano técnico · Carros sobre rieles, brazos inclinados y cabezal central de empalme",
-    "Desenho técnico · Carros sobre trilhos, braços inclinados e cabeçote central de emenda"
-  ],
+  "独立式": ["Standalone", "Independiente", "Independente"],
+  "轨道式": ["Rail-mounted", "Sobre rieles", "Sobre trilhos"],
   "查看顶部导引": [
     "Show upper guides",
     "Ver guías superiores",
